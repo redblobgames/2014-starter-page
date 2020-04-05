@@ -1,17 +1,13 @@
 <h1>Breadth first search</h1>
 
-<figure>
-  <svg id="diagram1">
-  </svg>
-  <p>
-    Time: <input id="time" type="range" min="0" value="0" />
-  </p>
+<figure id="diagram1">
 </figure>
   
 <script src="starter-page-vanilla.js"></script>
 
 <style>
-.cell { fill: hsl(60, 10%, 90%); stroke: hsl(60, 0%, 100%); stroke-width: 0.02px; }
+    .cell { fill: hsl(60, 10%, 90%); stroke: hsl(60, 0%, 100%); stroke-width: 0.02px; }
+    .wall { fill: hsl(30, 20%, 40%); stroke: hsl(30, 50%, 40%); }
 .explored { fill: hsl(45, 20%, 70%); }
 .frontier { fill: hsl(220, 50%, 70%); }
 </style>
