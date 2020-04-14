@@ -1,0 +1,17 @@
+#+title: Starter page - interactive diagrams
+#+date: <2020-04-14 Tue>
+
+I have a interactive tutorial that takes you step by step to make an interactive tutorial. However, the code for that is more involved than I'd like, so I wanted to make something even simpler.
+
+- [[./Vanilla/starter-page-vanilla.html][Vanilla]] javascript - no libraries. Output is with ~createElement~ and ~appendChild~, with ~setAttribute~ to set attributes and ~createTextNode~ to set text. Input is with ~addEventListener~ and callback functions.
+- Use [[./lit-html/starter-page-lit-html.html][lit-html]]. Output is described with ~html`…`~ in /html syntax/ in the js file, with ~attr=${value}~ to set attributes and ~${value}~ to set text. Input is with ~@click~ in the html to attach a click event handler. Tricky: need to use ~svg``~ for svg elements instead of ~html``~.
+- Use [[./vue-v2/][vue]] v2. Output is described with /html syntax/ in the html file, with ~:attr="value"~ to set attributes and ~{{value}}~ to set text. Input is with ~@click~ in the html to attach a click event handler. Tricky: need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property). Tricky: Vue 2 doesn't track changes to Set or Map values; had to force an update.
+
+None of these require a build step.
+
+#+begin_export html
+<x:footer>
+  Created 10 Apr 2020; &#160;
+  <!-- hhmts start -->Last modified: 14 Apr 2020<!-- hhmts end -->
+</x:footer>
+#+end_export

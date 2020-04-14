@@ -1,0 +1,30 @@
+<h1>Breadth first search</h1>
+
+<figure id="diagram1">
+  <svg :view-box.camel="`0 0 ${gridWorld.cols} ${gridWorld.rows}`">
+    <rect v-for="{col, row} in gridWorld.locations()"
+          :class="'cell ' + classFor(col, row)"
+          :x="col" :y="row" width=1 height=1
+          @click="toggleWall(col, row)" />
+  </svg>
+  <p>
+    Time: <input type=range 
+                 min=0 :max="gridWorld.cols*gridWorld.rows - gridWorld.walls.size"
+                 v-model="stepLimit" />
+  </p>
+</figure>
+
+<p>
+  Click to toggle walls.
+</p>
+
+<script type="module" src="starter-page-vue-v2.js"></script>
+
+<style>
+    .cell { fill: hsl(60, 10%, 90%); stroke: hsl(60, 0%, 100%); stroke-width: 0.02px; }
+    .wall { fill: hsl(30, 20%, 40%); stroke: hsl(30, 50%, 40%); }
+.explored { fill: hsl(45, 20%, 70%); }
+.frontier { fill: hsl(220, 50%, 70%); }
+</style>
+
+
