@@ -2,7 +2,12 @@
     "compilerOptions": {
         "module": "esnext",
         "target": "esnext",
-        "checkJs": true
+        "checkJs": true,
+        "plugins": [
+            {
+                "name": "ts-lit-plugin"
+            }
+        ]
     },
     "include": ["**/*"],
     "exclude": ["node_modules"]

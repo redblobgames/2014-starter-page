@@ -3,15 +3,86 @@
 
 I have a interactive tutorial that takes you step by step to make an interactive tutorial. However, the code for that is more involved than I'd like, so I wanted to make something even simpler.
 
-- [[./Vanilla/starter-page-vanilla.html][Vanilla]] javascript - no libraries. Output is with ~createElement~ and ~appendChild~, with ~setAttribute~ to set attributes and ~createTextNode~ to set text. Input is with ~addEventListener~ and callback functions.
-- Use [[./lit-html/starter-page-lit-html.html][lit-html]]. Output is described with ~html`…`~ in /html syntax/ in the js file, with ~attr=${value}~ to set attributes and ~${value}~ to set text. Input is with ~@click~ in the html to attach a click event handler. Tricky: need to use ~svg``~ for svg elements instead of ~html``~.
-- Use [[./vue-v2/][vue]] v2. Output is described with /html syntax/ in the html file, with ~:attr="value"~ to set attributes and ~{{value}}~ to set text. Input is with ~@click~ in the html to attach a click event handler. Tricky: need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property). Tricky: Vue 2 doesn't track changes to Set or Map values; had to force an update.
+** Vanilla javascript
 
-None of these require a build step.
+No libraries, no build step.
+
+[[./Vanilla/starter-page-vanilla.html][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vanilla][code]]
+
+- Output is imperative style. 
+- Use ~createElement~ and ~appendChild~, with ~setAttribute~ to set attributes and ~createTextNode~ to set text. 
+- Create and update are separate code. You have to keep track of whether something's already created.
+- Input is with ~addEventListener~ and callback functions.
+- Redraw is explicit. Call redraw every time you change data.
+- Modularity through your own abstractions in code.
+
+** Lit-html
+
+Small output library, no build step required.
+
+[[./lit-html/starter-page-lit-html.html][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-html][code]]
+
+- Output is template style, described with ~html`…`~ in /html syntax/ in the javascript file.
+- Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
+- Use javascript logic for branch/loop in templates.
+- Create and update are unified. The system keeps track of whether something's already created.
+- Input is with ~@click~ in the html to attach a click event handler.
+- Redraw is explicit. Call ~redraw()~ every time you change data.
+- Modularity through your own abstractions in code.
+
+Tricky: need to use ~svg``~ for svg elements instead of ~html``~.
+
+** Vue v2
+
+Medium sized input&output library, no build step required.
+
+[[./vue-v2/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2][code]]
+
+- Output is template style, described with /html syntax/ in the html file /or/ in the javascript file.
+- Use ~:attr="value"~ to set attributes and ~{{value}}~ to set text.
+- Use ~v-if~ and ~v-for~ for branch/loop in templates.
+- Create and update are unified. The system keeps track of whether something's already created.
+- Input is with ~@click~ in the html to attach a click event handler. 
+- Redraw is automatic. Run ~this.x = 5~ and Vue will automatically redraw.
+- Modularity through custom elements like ~<my-gridworld>~.
+
+Tricky: need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property); only applies when writing the template in the html, and not when writing the template in javascript.
+Tricky: Vue 2 tracks changes to arrays and objects, including methods like =push=, but not to the new =Set= or =Map= types; have to force an update for these new types. Vue 3 tracks more types.
+
+** React
+
+Medium sized input&output library, build step strongly recommended to convert code into regular Javascript.
+
+[[./react-16/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/react-16][code]] (demo doesn't use the build step)
+
+- Output is template style, described with /html syntax/ (jsx) in the javascript file.
+- Use ~attr={value}~ to set attributes and ~{value}~ to set text.
+- Use javascript logic for branch/loop in templates.
+- Create and update are unified. The system keeps track of whether something's already created.
+- Input is with ~onClick~ in the html to attach a click event handler. 
+- Redraw is automatic. Call ~this.setState({x: 5})~ and React will redraw.
+- Modularity through custom elements like ~<Gridworld>~.
+
+Tricky: need to use the /javascript names/ of elements and attributes instead of the html names. For example, use ~className=...~ instead of ~class=...~ like you would in html.
+
+** TODO: Svelte
+
+Medium sized input&output library, build step required to convert Svelte code into regular Javascript
+
+- Output is template style, described with /html syntax/ in its own Svelte code file.
+- Use ~attr={value}~ to set attributes and ~{value}~ to set text.
+- Use ~#{if}~ and ~{#each}~ for branch/loop in templates.
+- Create and update are unified. The system keeps track of whether something's already created.
+- Input is with ~on:click~ in the html to attach a click event handler. 
+- Redraw is automatic. Svelte tracks top level changes to your underlying data and automatically redraws.
+- Modularity through custom elements like ~<Gridworld>~.
+
+Tricky: Svelte tracks changes based on assignment statements, but not methods like =push=.
+
 
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 14 Apr 2020<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 18 Apr 2020<!-- hhmts end -->
 </x:footer>
 #+end_export

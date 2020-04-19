@@ -1,0 +1,29 @@
+<h1>Breadth first search</h1>
+
+<figure id="diagram1">
+</figure>
+
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    
+<!-- HACK: use React without a build step; not recommended -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="module">
+  /* HACK: re-export these to globals so that I can use React without a build step;
+     would not be needed if you're using React properly, with a build step */
+  import {GridWorld, breadthFirstSearch} from '../gridworld.js';
+  window.GridWorld = GridWorld;
+  window.breadthFirstSearch = breadthFirstSearch;
+</script>
+
+<script type="text/babel" src="starter-page-react-16.jsx">
+</script>
+
+
+<style>
+.cell { fill: hsl(60, 10%, 90%); stroke: hsl(60, 0%, 100%); stroke-width: 0.02px; }
+.wall { fill: hsl(30, 20%, 40%); stroke: hsl(30, 50%, 40%); }
+.explored { fill: hsl(45, 20%, 70%); }
+.frontier { fill: hsl(220, 50%, 70%); }
+</style>
