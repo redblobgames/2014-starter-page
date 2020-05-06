@@ -7,7 +7,7 @@ I have a interactive tutorial that takes you step by step to make an interactive
 
 No libraries, no build step.
 
-[[./Vanilla/starter-page-vanilla.html][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vanilla][code]]
+[[./vanilla/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vanilla][code]]
 
 - Output is imperative style. 
 - Use ~createElement~ and ~appendChild~, with ~setAttribute~ to set attributes and ~createTextNode~ to set text. 
@@ -20,7 +20,7 @@ No libraries, no build step.
 
 Small output library, no build step required.
 
-[[./lit-html/starter-page-lit-html.html][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-html][code]]
+[[./lit-html/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-html][code]]
 
 - Output is template style, described with ~html`…`~ in /html syntax/ in the javascript file.
 - Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
@@ -31,6 +31,7 @@ Small output library, no build step required.
 - Modularity through your own abstractions in code.
 
 Tricky: need to use ~svg``~ for svg elements instead of ~html``~.
+Tricky: in html syntax, tags don't self-close, so ~<element />~ is only the open tag, and you still have to close it with ~</element>~.
 
 ** Vue v2
 
@@ -43,7 +44,7 @@ Medium sized input&output library, no build step required.
 - Use ~v-if~ and ~v-for~ for branch/loop in templates.
 - Create and update are unified. The system keeps track of whether something's already created.
 - Input is with ~@click~ in the html to attach a click event handler. 
-- Redraw is automatic. Run ~this.x = 5~ and Vue will automatically redraw.
+- Redraw is automatic for state shared with Vue. Run ~this.x = 5~ and Vue will automatically redraw. If you pass an object into Vue, you can still modify the state outside of Vue and it will pick it up.
 - Modularity through custom elements like ~<my-gridworld>~.
 
 Tricky: need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property); only applies when writing the template in the html, and not when writing the template in javascript.
@@ -55,12 +56,12 @@ Medium sized input&output library, build step strongly recommended to convert co
 
 [[./react-16/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/react-16][code]] (demo doesn't use the build step)
 
-- Output is template style, described with /html syntax/ (jsx) in the javascript file.
+- Output is template style, described with /xml syntax/ (jsx) in the javascript file.
 - Use ~attr={value}~ to set attributes and ~{value}~ to set text.
 - Use javascript logic for branch/loop in templates.
 - Create and update are unified. The system keeps track of whether something's already created.
 - Input is with ~onClick~ in the html to attach a click event handler. 
-- Redraw is automatic. Call ~this.setState({x: 5})~ and React will redraw.
+- Redraw is automatic for state kept inside React's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
 - Modularity through custom elements like ~<Gridworld>~.
 
 Tricky: need to use the /javascript names/ of elements and attributes instead of the html names. For example, use ~className=...~ instead of ~class=...~ like you would in html.
@@ -74,7 +75,7 @@ Medium sized input&output library, build step required to convert Svelte code in
 - Use ~#{if}~ and ~{#each}~ for branch/loop in templates.
 - Create and update are unified. The system keeps track of whether something's already created.
 - Input is with ~on:click~ in the html to attach a click event handler. 
-- Redraw is automatic. Svelte tracks top level changes to your underlying data and automatically redraws.
+- Redraw is automatic for state kept inside Svelte. It tracks top level changes to your underlying data and automatically redraws.
 - Modularity through custom elements like ~<Gridworld>~.
 
 Tricky: Svelte tracks changes based on assignment statements, but not methods like =push=.
@@ -83,6 +84,6 @@ Tricky: Svelte tracks changes based on assignment statements, but not methods li
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 18 Apr 2020<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 05 May 2020<!-- hhmts end -->
 </x:footer>
 #+end_export
