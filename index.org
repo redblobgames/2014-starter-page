@@ -32,6 +32,7 @@ Small output library, no build step required.
 
 Tricky: need to use ~svg``~ for svg elements instead of ~html``~.
 Tricky: in html syntax, tags don't self-close, so ~<element />~ is only the open tag, and you still have to close it with ~</element>~.
+Tricky: there's no bundled version of the library, so it loads slower than other libraries. It's possible to bundle it yourself with Snowpack but frustrating that it doesn't come with a bundle like Vue does.
 
 ** Vue v2
 
@@ -66,6 +67,26 @@ Medium sized input&output library, build step strongly recommended to convert co
 
 Tricky: need to use the /javascript names/ of elements and attributes instead of the html names. For example, use ~className=...~ instead of ~class=...~ like you would in html.
 
+** Preact + htm
+
+Small input&output library, no build step needed if using HTM.
+
+[[./preact-htm/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/preact-htm/][code]] (demo doesn't use the build step)
+
+- Output is template style, described with ~html`…`~ in /xml syntax/ in the javascript file.
+- Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
+- Use javascript logic for branch/loop in templates.
+- Create and update are unified. The system keeps track of whether something's already created.
+- Input is with ~onClick~ in the html to attach a click event handler. 
+- Redraw is automatic for state kept inside Preact's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
+- Modularity through custom elements like ~<Gridworld>~.
+
+Tricky: nothing I've found so far (!).
+
+Preact is like React, but without the tricky item I listed under React: it allows html names like ~class=…~ rather than javascript names like ~className=…~.. 
+
+It normally uses JSX like React does but Preact's HTM is like lit-html's format, without the tricky items I listed under lit-html: you don't have to have both ~html``~ and ~svg``~; the templates support xml syntax; and there's a prebundled version of the library.
+
 ** TODO: Svelte
 
 Medium sized input&output library, build step required to convert Svelte code into regular Javascript
@@ -80,10 +101,54 @@ Medium sized input&output library, build step required to convert Svelte code in
 
 Tricky: Svelte tracks changes based on assignment statements, but not methods like =push=.
 
+** My thoughts
+
+The main idea with templates is that instead of writing /commands/ to generate html, we /describe/ the html we want, with some placeholders for values that come from Javascript values. For example:
+
+#+begin_src xml
+<rect fill=red x=${col} y=${row} width=1 height=1 />
+#+end_src
+
+Compare this to the vanilla approach:
+
+#+begin_src js
+let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect");
+rect.setAttribute("fill", "red");
+rect.setAttribute("x", col);
+rect.setAttribute("y", row);
+rect.setAttribute("width", 1);
+rect.setAttribute("height", 1);
+svg.appendChild(rect);
+#+end_src
+
+or the d3.js approach:
+
+#+begin_src js
+let rect = svg.append("rect")
+              .attr("fill", "red")
+              .attr("x", col)
+              .attr("y", row)
+              .attr("width", 1)
+              .attr("height", 1);
+#+end_src
+
+I find templates to be a big win. The major libraries in this space (React, Vue, Svelte, lit-html) all use templates, but the details differ.
+
+#+begin_src xml
+<rect fill=red x={col} y={row} width=1 height=1 />
+<rect fill=red :x="col" :y="row" width=1 height=1 />
+<rect fill=red x=${col} y=${row} width=1 height=1 />
+#+end_src
+
+There's some difference in how the templates are written. React uses an extension of Javascript called JSX to allow you to write html in your Javascript. You run a compiler to translate that into regular Javascript. Vue reads HTML from your document, or in strings in the source code. Lit-html uses a relatively new feature, Javascript template literals. Svelte also uses its own file format that is compiled into regular Javascript.
+
+In addition, React, Vue, and Svelte offer a /component/ system that allows you to create custom elements like ~<GridWorld>~ that are then expanded into HTML. Lit-html doesn't do this, and instead leaves that to a separate library, LitElement. For my small projects, the component system doesn't help me, as I can use regular Javascript functions and classes instead. However, for larger projects, it provides some modularity and also allows you to reuse components that others have written.
+
+Tricky: in some of these template systems, it is hard to programatically construct the html in certain ways. For example in lit-html the tag name has to be specified statically.
 
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 05 May 2020<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 07 Aug 2020<!-- hhmts end -->
 </x:footer>
 #+end_export

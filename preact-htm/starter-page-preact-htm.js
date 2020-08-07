@@ -4,7 +4,7 @@
  * License: Apache-2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
  */
 
-import {html, svg, render} from 'https://unpkg.com/lit-html?module';
+import { html, render } from 'https://unpkg.com/htm/preact/standalone.module.js';
 import {GridWorld, breadthFirstSearch} from '../gridworld.js';
 
 /**
@@ -29,14 +29,12 @@ function makeBfsDiagram(parentElement, cols, rows, startCol, startRow) {
         redraw();
     }
 
-    function setSlider() {
-        stepLimit = this.valueAsNumber;
+    function setSlider(event) {
+        stepLimit = event.target.valueAsNumber;
         redraw();
     }
 
-    /* Construct the html/svg using lit-html templates svg`` and html``
-
-       The drawn grid will have size cols X rows. This means each box
+    /* The drawn grid will have size cols X rows. This means each box
        is 1x1, which is convenient, except when you want to set
        outline widths (maybe 0.02px instead of the usual 1px) and font
        sizes (maybe 0.8px instead of the usual 16px). An alternative
@@ -51,9 +49,9 @@ function makeBfsDiagram(parentElement, cols, rows, startCol, startRow) {
                 : bfsResults.frontier.indexOf(id) >= 0 ? "frontier"
                 : bfsResults.explored.indexOf(id) >= 0 ? "explored"
                 : "";
-            rects.push(svg`<rect class="cell ${className}"
+            rects.push(html`<rect class="cell ${className}"
                               x=${col} y=${row} width=1 height=1
-                              @click=${() => clickEvent(col, row)} />`);
+                              onclick=${() => clickEvent(col, row)} />`);
         }
         
         return html`
@@ -63,7 +61,7 @@ function makeBfsDiagram(parentElement, cols, rows, startCol, startRow) {
              <p>
                Time: <input type=range 
                       min=0 max=${cols*rows - gridWorld.walls.size} 
-                      value=${stepLimit} @input=${setSlider} />
+                      value=${stepLimit} oninput=${setSlider} />
              </p>`;
     }
 
