@@ -30,15 +30,18 @@ Small output library, no build step required.
 - Redraw is explicit. Call ~redraw()~ every time you change data.
 - Modularity through your own abstractions in code.
 
-Tricky: need to use ~svg``~ for svg elements instead of ~html``~.
-Tricky: in html syntax, tags don't self-close, so ~<element />~ is only the open tag, and you still have to close it with ~</element>~.
-Tricky: there's no bundled version of the library, so it loads slower than other libraries. It's possible to bundle it yourself with Snowpack but frustrating that it doesn't come with a bundle like Vue does.
+Tricky:
 
-** Vue v2
+- need to use ~svg``~ for svg elements instead of ~html``~.
+- in html syntax, tags don't self-close, so ~<element />~ is only the open tag, and you still have to close it with ~</element>~.
+- there's no bundled version of the library, so it loads slower than other libraries. It's possible to bundle it yourself with Snowpack's [[https://www.npmjs.com/package/esinstall][esinstall]] but frustrating that it doesn't come with a bundle like Vue does.
+
+** Vue
 
 Medium sized input&output library, no build step required.
 
-[[./vue-v2/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2][code]]
+- Vue 2 [[./vue-v2/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2][code]]
+- Vue 3 [[./vue-v3/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v3][code]]
 
 - Output is template style, described with /html syntax/ in the html file /or/ in the javascript file.
 - Use ~:attr="value"~ to set attributes and ~{{value}}~ to set text.
@@ -48,8 +51,11 @@ Medium sized input&output library, no build step required.
 - Redraw is automatic for state shared with Vue. Run ~this.x = 5~ and Vue will automatically redraw. If you pass an object into Vue, you can still modify the state outside of Vue and it will pick it up.
 - Modularity through custom elements like ~<my-gridworld>~.
 
-Tricky: need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property); only applies when writing the template in the html, and not when writing the template in javascript.
-Tricky: Vue 2 tracks changes to arrays and objects, including methods like =push=, but not to the new =Set= or =Map= types; have to force an update for these new types. Vue 3 tracks more types.
+Tricky:
+
+- need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property); only applies when writing the template in the html, and not when writing the template in javascript.
+- Vue 2 has some limitations on automatic tracking of updates. It tracks assignment to object fields ~expr.field = …~ including when the objects are inside other objects or arrays. It does not track assignment to array elements ~expr[index] = …~ but does handle array methods such as =push= and =splice=. Vue 2 does not know about the new =Set= or =Map= types. Vue 3 handles all of these situations.
+- Vue 3 is not backwards compatible with existing Vue 2 code; the Vue 2 code has to be migrated to work with Vue 3.
 
 ** React
 
@@ -65,7 +71,13 @@ Medium sized input&output library, build step strongly recommended to convert co
 - Redraw is automatic for state kept inside React's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
 - Modularity through custom elements like ~<Gridworld>~.
 
-Tricky: need to use the /javascript names/ of elements and attributes instead of the html names. For example, use ~className=...~ instead of ~class=...~ like you would in html.
+Tricky:
+
+- need to use the /javascript names/ of elements and attributes instead of the html names. For example, use ~className=…~ instead of ~class=…~ like you would in html.
+- need to convert SVG /kebab case/ attributes like ~fill-opacity=…~ into /camel case/ for JSX like ~fillOpacity=…~ because JSX doesn't support the original names. This means you can't copy an SVG file from a visual editor into JSX and have it work.
+- there are also other html elements that have to be changed to work with React, such as ~for=…~ becoming ~htmlFor=…~ and ~tabindex=…~ being changed to ~tabIndex=…~ ; see [[https://reactjs.org/docs/dom-elements.html][list]].
+- some but not all input elements need to use ~onChange=…~ instead of ~onInput=…~ like HTML5 uses, and there doesn't seem to be a way to get HTML5's =onChange=.
+- when using the components, ~setState({x: 5})~ doesn't immediately update =x= to 5 (this is unlike Vue, which does immediately update, making the logic simpler)
 
 ** Preact + htm
 
@@ -81,15 +93,20 @@ Small input&output library, no build step needed if using HTM.
 - Redraw is automatic for state kept inside Preact's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
 - Modularity through custom elements like ~<Gridworld>~.
 
-Tricky: nothing I've found so far (!).
-
-Preact is like React, but without the tricky item I listed under React: it allows html names like ~class=…~ rather than javascript names like ~className=…~.. 
+Preact is like React, but without the tricky items I listed under React: it allows html names like ~class=…~ rather than javascript names like ~className=…~; and it allows svg names like ~fill-opacity=…~ rather than ~fillOpacity~ like React requires. This means you can use an SVG visual editor and export it directly into Preact.
 
 It normally uses JSX like React does but Preact's HTM is like lit-html's format, without the tricky items I listed under lit-html: you don't have to have both ~html``~ and ~svg``~; the templates support xml syntax; and there's a prebundled version of the library.
 
-** TODO: Svelte
+Tricky:
+
+- like React, ~setState~ doesn't trigger right away
+
+
+** Svelte
 
 Medium sized input&output library, build step required to convert Svelte code into regular Javascript
+
+TODO: demo
 
 - Output is template style, described with /html syntax/ in its own Svelte code file.
 - Use ~attr={value}~ to set attributes and ~{value}~ to set text.
@@ -99,7 +116,9 @@ Medium sized input&output library, build step required to convert Svelte code in
 - Redraw is automatic for state kept inside Svelte. It tracks top level changes to your underlying data and automatically redraws.
 - Modularity through custom elements like ~<Gridworld>~.
 
-Tricky: Svelte tracks changes based on assignment statements, but not methods like =push=.
+Tricky: 
+
+- Svelte tracks changes based on assignment statements, but not methods like =push=.
 
 ** My thoughts
 
@@ -132,23 +151,26 @@ let rect = svg.append("rect")
               .attr("height", 1);
 #+end_src
 
-I find templates to be a big win. The major libraries in this space (React, Vue, Svelte, lit-html) all use templates, but the details differ.
+I find templates to be a big win. The major libraries in this space (React, Vue, Svelte, Preact, lit-html) all use templates, but the details differ.
 
 #+begin_src xml
+<!-- react/preact/vue with jsx -->
 <rect fill=red x={col} y={row} width=1 height=1 />
+<!-- vue templates -->
 <rect fill=red :x="col" :y="row" width=1 height=1 />
+<!-- lit-html, and react/preact with htm -->
 <rect fill=red x=${col} y=${row} width=1 height=1 />
 #+end_src
 
-There's some difference in how the templates are written. React uses an extension of Javascript called JSX to allow you to write html in your Javascript. You run a compiler to translate that into regular Javascript. Vue reads HTML from your document, or in strings in the source code. Lit-html uses a relatively new feature, Javascript template literals. Svelte also uses its own file format that is compiled into regular Javascript.
+There's some difference in how the templates are written. React uses an extension of Javascript called JSX to allow you to write html in your Javascript. You run a compiler to translate that into regular Javascript. Vue reads HTML from your document, or in strings in the source code. Lit-html uses a relatively new feature, Javascript template literals. Preact normally uses JSX but there's an option to use HTM template literals. Svelte uses its own file format that is compiled into regular Javascript.
 
-In addition, React, Vue, and Svelte offer a /component/ system that allows you to create custom elements like ~<GridWorld>~ that are then expanded into HTML. Lit-html doesn't do this, and instead leaves that to a separate library, LitElement. For my small projects, the component system doesn't help me, as I can use regular Javascript functions and classes instead. However, for larger projects, it provides some modularity and also allows you to reuse components that others have written.
+In addition, React, Preact, Vue, and Svelte offer a /component/ system that allows you to create custom elements like ~<GridWorld>~ that are then expanded into HTML. Lit-html doesn't do this, and instead leaves that to a separate library, LitElement. For my small projects, the component system doesn't help me, as I can use regular Javascript functions and classes instead. However, for larger projects, it provides some modularity and also allows you to reuse components that others have written. LitElement uses standard web components that can be used with any other system, whereas React, Preact, Vue, Svelte components can only be used within their own system.
 
 Tricky: in some of these template systems, it is hard to programatically construct the html in certain ways. For example in lit-html the tag name has to be specified statically.
 
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 07 Aug 2020<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 01 Oct 2020<!-- hhmts end -->
 </x:footer>
 #+end_export
