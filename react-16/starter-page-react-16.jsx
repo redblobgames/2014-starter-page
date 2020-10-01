@@ -43,8 +43,9 @@ function makeBfsDiagram(parentElement, cols, rows, startCol, startRow) {
                 : bfsResults.explored.indexOf(id) >= 0 ? "explored"
                 : "";
             rects.push(<rect className={'cell ' + className}
-                              x={col} y={row} width="1" height="1"
-                              onClick={() => clickEvent(col, row)} />);
+                             key={col+','+row}
+                             x={col} y={row} width="1" height="1"
+                             onClick={() => clickEvent(col, row)} />);
         }
         
         return <div>
@@ -54,7 +55,7 @@ function makeBfsDiagram(parentElement, cols, rows, startCol, startRow) {
              <p>
                Time: <input type="range"
                       min="0" max={cols*rows - gridWorld.walls.size} 
-                      value={stepLimit} onInput={setSlider} />
+                      value={stepLimit} onChange={setSlider} />
              </p>
         </div>
     }

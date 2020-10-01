@@ -9,6 +9,8 @@ No libraries, no build step.
 
 [[./vanilla/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vanilla][code]]
 
+Notes:
+
 - Output is imperative style. 
 - Use ~createElement~ and ~appendChild~, with ~setAttribute~ to set attributes and ~createTextNode~ to set text. 
 - Create and update are separate code. You have to keep track of whether something's already created.
@@ -18,9 +20,11 @@ No libraries, no build step.
 
 ** Lit-html
 
-Small output library, no build step required.
+Small output library (11k), no build step required.
 
 [[./lit-html/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-html][code]]
+
+Notes:
 
 - Output is template style, described with ~html`…`~ in /html syntax/ in the javascript file.
 - Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
@@ -38,10 +42,12 @@ Tricky:
 
 ** Vue
 
-Medium sized input&output library, no build step required.
+Medium sized input&output library (80k), no build step required.
 
 - Vue 2 [[./vue-v2/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2][code]]
 - Vue 3 [[./vue-v3/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v3][code]]
+
+Notes:
 
 - Output is template style, described with /html syntax/ in the html file /or/ in the javascript file.
 - Use ~:attr="value"~ to set attributes and ~{{value}}~ to set text.
@@ -59,9 +65,11 @@ Tricky:
 
 ** React
 
-Medium sized input&output library, build step strongly recommended to convert code into regular Javascript.
+Medium sized input&output library (116k), build step strongly recommended to convert code into regular Javascript.
 
 [[./react-16/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/react-16][code]] (demo doesn't use the build step)
+
+Notes:
 
 - Output is template style, described with /xml syntax/ (jsx) in the javascript file.
 - Use ~attr={value}~ to set attributes and ~{value}~ to set text.
@@ -70,6 +78,7 @@ Medium sized input&output library, build step strongly recommended to convert co
 - Input is with ~onClick~ in the html to attach a click event handler. 
 - Redraw is automatic for state kept inside React's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
 - Modularity through custom elements like ~<Gridworld>~.
+- React Native lets you build native apps (especially for phones).
 
 Tricky:
 
@@ -81,9 +90,11 @@ Tricky:
 
 ** Preact + htm
 
-Small input&output library, no build step needed if using HTM.
+Small input&output library (10k), no build step needed if also using HTM (2k).
 
 [[./preact-htm/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/preact-htm/][code]] (demo doesn't use the build step)
+
+Notes:
 
 - Output is template style, described with ~html`…`~ in /xml syntax/ in the javascript file.
 - Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
@@ -107,6 +118,8 @@ Tricky:
 Medium sized input&output library, build step required to convert Svelte code into regular Javascript
 
 TODO: demo
+
+Notes:
 
 - Output is template style, described with /html syntax/ in its own Svelte code file.
 - Use ~attr={value}~ to set attributes and ~{value}~ to set text.
