@@ -1,7 +1,7 @@
 #+title: Starter page - interactive diagrams
 #+date: <2020-04-14 Tue>
 
-I have a interactive tutorial that takes you step by step to make an interactive tutorial. However, the code for that is more involved than I'd like, so I wanted to make something even simpler.
+I have an [[https://www.redblobgames.com/making-of/line-drawing/][interactive tutorial that takes you step by step to make an interactive tutorial]]. However, the code for that is more involved than I'd like, so I wanted to make something even simpler. I wrote the same example with several libraries and made some notes for myself. I often use these as a starting point when I'm working on a project.
 
 ** Vanilla javascript
 
@@ -17,6 +17,8 @@ Notes:
 - Input is with ~addEventListener~ and callback functions.
 - Redraw is explicit. Call redraw every time you change data.
 - Modularity through your own abstractions in code.
+
+A simpler alternative to  ~createElement~ etc. is to construct a string and set =innerHTML=. This is nice /unless/ you have event listeners on those elements. Setting =innerHTML= creates new elements. If you are dragging the mouse based on an event handler, and the mouse drag replaces the elements, that mouse drag might be running on an element that no longer exists, and that can be tricky to debug. You'll also have to be careful to escape your HTML correctly if you are setting =innerHTML=.
 
 ** Lit-html
 
@@ -133,6 +135,20 @@ Tricky:
 
 - Svelte tracks changes based on assignment statements, but not methods like =push=.
 
+** ObservableHQ
+
+/Notebook/ style interface, where top level definitions become reactive in other expressions. Think spreadsheets.
+
+[[https://observablehq.com/@redblobgames/breadth-first-search-demo][Demo]] partially implemented ; see source by clicking to the left of any cell.
+
+- Output is template style, described with ~html`…`~ in the notebook
+- Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
+- Redraw is automatic for top-level definitions.
+
+Tricky:
+
+- custom ~viewof~ syntax if you want to have output cells also provide input (e.g. drawing on the grid)
+
 ** My thoughts
 
 The main idea with templates is that instead of writing /commands/ to generate html, we /describe/ the html we want, with some placeholders for values that come from Javascript values. For example:
@@ -184,6 +200,6 @@ Tricky: in some of these template systems, it is hard to programatically constru
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 01 Oct 2020<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 20 Dec 2021<!-- hhmts end -->
 </x:footer>
 #+end_export
