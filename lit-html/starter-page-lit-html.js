@@ -4,7 +4,7 @@
  * License: Apache-2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
  */
 
-import {html, svg, render} from 'https://unpkg.com/lit-html?module';
+import {html, svg, render} from 'https://unpkg.com/lit-html@1?module';
 import {GridWorld, breadthFirstSearch} from '../gridworld.js';
 
 /**

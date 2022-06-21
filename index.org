@@ -20,7 +20,7 @@ Notes:
 
 A simpler alternative to  ~createElement~ etc. is to construct a string and set =innerHTML=. This is nice /unless/ you have event listeners on those elements. Setting =innerHTML= creates new elements. If you are dragging the mouse based on an event handler, and the mouse drag replaces the elements, that mouse drag might be running on an element that no longer exists, and that can be tricky to debug. You'll also have to be careful to escape your HTML correctly if you are setting =innerHTML=.
 
-** Lit-html
+** Lit-html v1
 
 Small output library (11k), no build step required.
 
@@ -41,6 +41,10 @@ Tricky:
 - need to use ~svg``~ for svg elements instead of ~html``~.
 - in html syntax, tags don't self-close, so ~<element />~ is only the open tag, and you still have to close it with ~</element>~.
 - there's no bundled version of the library, so it loads slower than other libraries. It's possible to bundle it yourself with Snowpack's [[https://www.npmjs.com/package/esinstall][esinstall]] but frustrating that it doesn't come with a bundle like Vue does.
+
+Haven't yet investigated Lit v2:
+- combines lit-element and lit-html
+- [[https://lit.dev/docs/components/properties/#mutating-properties][reactive properties]]: when you change the property, it re-renders the element. Only works for top level property changes, not changes to nested properties or array elements, so you still have to manually re-render for anything other than the top level.
 
 ** Vue
 
@@ -200,6 +204,6 @@ Tricky: in some of these template systems, it is hard to programatically constru
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 20 Dec 2021<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 20 Jun 2022<!-- hhmts end -->
 </x:footer>
 #+end_export
