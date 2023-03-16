@@ -1,7 +1,7 @@
 #+title: Starter page - interactive diagrams
 #+date: <2020-04-14 Tue>
 
-I have an [[https://www.redblobgames.com/making-of/line-drawing/][interactive tutorial that takes you step by step to make an interactive tutorial]]. However, the code for that is more involved than I'd like, so I wanted to make something even simpler. I wrote the same example with several libraries and made some notes for myself. I often use these as a starting point when I'm working on a project.
+I have an [[href:/making-of/line-drawing/][interactive tutorial that takes you step by step to make an interactive tutorial in d3.js]] and [[href:/making-of/circle-drawing/][another one in vue.js]].  However, the code for those is more involved than I'd like, so I wanted to make something even simpler. I wrote the same example with several libraries and made some notes for myself. I often use these as a starting point when I'm working on a project.
 
 ** Vanilla javascript
 
@@ -199,11 +199,13 @@ There's some difference in how the templates are written. React uses an extensio
 
 In addition, React, Preact, Vue, and Svelte offer a /component/ system that allows you to create custom elements like ~<GridWorld>~ that are then expanded into HTML. Lit-html doesn't do this, and instead leaves that to a separate library, LitElement. For my small projects, the component system doesn't help me, as I can use regular Javascript functions and classes instead. However, for larger projects, it provides some modularity and also allows you to reuse components that others have written. LitElement uses standard web components that can be used with any other system, whereas React, Preact, Vue, Svelte components can only be used within their own system.
 
+https://component-party.dev/ shows a comparison of the syntax used across Svelte, React, Vue, and others.
+
 Tricky: in some of these template systems, it is hard to programatically construct the html in certain ways. For example in lit-html the tag name has to be specified statically.
 
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 20 Jun 2022<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 31 Jan 2023<!-- hhmts end -->
 </x:footer>
 #+end_export
