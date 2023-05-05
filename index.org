@@ -3,6 +3,8 @@
 
 I have an [[href:/making-of/line-drawing/][interactive tutorial that takes you step by step to make an interactive tutorial in d3.js]] and [[href:/making-of/circle-drawing/][another one in vue.js]].  However, the code for those is more involved than I'd like, so I wanted to make something even simpler. I wrote the same example with several libraries and made some notes for myself. I often use these as a starting point when I'm working on a project.
 
+None of these examples go very far, such as using components or multiple modules. I'm primarily evaluating these for my interactive diagrams and /not/ for making "web apps".
+
 * Vanilla JavaScript
 :PROPERTIES:
 :CUSTOM_ID: vanillajs
@@ -30,10 +32,10 @@ A simpler alternative to  ~createElement~ etc. is to construct a string and set 
 
 Medium sized input&output library (80k), no build step required, but Vue-specific compiler optional, and Vue-agnostic JSX also allowed but not widely used.
 
-- Vue 2 [[./vue-v2-html/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2-html][code]]
-- Vue 3 [[./vue-v3-html/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v3-html][code]]
-- Vue 3 w/JSX (TODO)
-- Vue 3 w/SFC (TODO)
+- Vue 2 w/HTML [[./vue-v2-html/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2-html][code]]
+- Vue 3 w/HTML [[./vue-v3-html/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v3-html][code]]
+- Vue 3 w/JSX [[./vue-v3-jsx/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v3-jsx][code]]
+- Vue 3 w/SFC [[https://play.vuejs.org/#eNqVV21v2zYQ/is3Y2ns2JZkt90wxfa6degQYEOAtEA/xMGqSJTFVS8GScfJDP/33ZES9eakmz9EEu/u4d1zxzvmMPhlu3UedmzgDxYyFHyrVuscgGfbQig4/C549LkQaTSBe8GCSCUfuJDqIwtEmBwhFkUG5467QbU9qTl/y/PLdU4QKVMgVSDU+yKFJbydmK+bYo9f80qDLPUGuJizPdgNh/PXE/hpVIKxR+1PxOJgl6JftEa/KFCBD8MRLFcwtKv0s8CT5qp24Srya7GjiqtoWDlaOznq2LHtHzzjygfPCo61Tlhk251iCNxy4j6WN0yixxJdbEnoJ5jaifwEsUOVcOnUEYD+Ln23X6VHRFGNeay9s28ZU0kRyY5vqthsUvY5SNNhSIELjLnvY9sTJKtv9Mz+mpY0kPJDIV7agaqAU/p7W2FeTm/SIK9jtEfPpJMEcsijEfwM6wGtrAdda/3zjXWdJAfrOVecCYfnEXu8jjXKagmehqqk/xkOqzYtBItOw1XSZ+FQMHgxucd1vnDtqcUPxbJtGiimz/Aima1+NbUFMRUXSF1dCxcF5lgtYr7ZCYb8L9eDiAcbEWSz9UCbo1Q+bMB/4Gw/vS8enTDIWIp6XzwM4PtDTTomSR5bK5gxefxigRBKsFDBwzQuBCIcqrQegeeNo5gWYaB4keNp6ZLi61JC2/OQpSmcw/hEcfWMHtEApesB+E/4ijr4uufIyHIGCeObRC1nbZt3YcrDr6h8qtTR2q3IcZGd6n1rA/3EM+bDgufYDkA9bdlSBPmGwckUZzxfeuBnAfnZ5vOiTSZMGzSZIpf8H/ZM6TxMsyLSubJdouW5cXfhmuxXtVAF8Z4IwPZQdggw2xkL0lm4jTLDT6meUlNxAI7OzgHrLU19SGQ6/MGbwMw7w17unY0usZGK4isyVIlIMvMaoqlOD7ZZx5tvHy+pxjUwedECfo3WczJ/0wMm0dtaVEFUB64F8wYHk4b5saVbnfWW7nxeAVtlLIMy/MFEp7AagzhQy6Gl67QebFUHDLHOldiFylSw1BUmWw1S9xOSYXekR6MZaJGujKW2a4jciwt4R6UHh49MLfJdds/E6ggXbsdcJ7acu6g5xIhcF3uBhCJGDZN5sIfSWGPM5qXdn5tul60ZZXhKUQgXdSSlnxaFbhCIQ42xgUAzgcyXNBnOauvWcMGN9F3iz0AlTpwWyCNqu7V2c2iUPtWdp+sIz2/ooL4YkQcLnQh49Uo/FvVebcdQrnXJQXynR6nbyFWDyZcncXtCPjsXeQzm4tAagr2J21DBHsEUI60GzBFYKrF2nrUKIp2vpokNiB7mb07d9b4QZhJ3omkMgDKqug4auKRqcVDz9q4jDIM84ngHZFp6i6jjmca9mwB9TVtf+n08a35NZ3dNTBxPMCTg2xDFd3QO6i16TFrCbe2g0YgS/l0nD43EkUo/KS3GnO1OlnfAhk3nBlSS3XktC9VCdUutMWG7ORH60tJl2TJijqN32S18vTAe9yKyhuaQomH3FOhs9A1NGOSL4aGulf9FgYGo49cUrPOyJ8e7PCQeTl2+G/due+W2c3R5lcc85+rJ+m3I2eVEnVfuR2t2giCjJU5FLIntMOqL9wnHsTu0l9GU5Ru8w62wp+jGg3uNx0hl/S9Ar3fuhGA5QiK6hZEJj6nJn0gu0kLKWO71LaM+wBatX7d0BHq3XIM2Qg+9k9m1Hun8ltq9C77+p88Af0MPh9an69+ufcw5XktCVnO758hbxJHfHJfxJLsYMd1j/6J+861qKh/V6Kjcnlh8GiKoNDj+C2ZyjW8=][demo and code]]
 
 Notes:
 
@@ -50,7 +52,7 @@ Tricky:
 - need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property); only applies when writing the template in the html, and not when writing the template in JavaScript.
 - Vue 2 has some limitations on automatic tracking of updates. It tracks assignment to object fields ~expr.field = …~ including when the objects are inside other objects or arrays. It does not track assignment to array elements ~expr[index] = …~ but does handle array methods such as =push= and =splice=. Vue 2 does not know about the new =Set= or =Map= types. Vue 3 handles all of these situations.
 - Vue 3 is not backwards compatible with existing Vue 2 code; the Vue 2 code has to be migrated to work with Vue 3.
-- Vue 3 also has some limitations on automatic tracking. It cannot observe private fields, and I believe it cannot observe fields modified through inheritance chains.
+- Vue 3 still has a few limitations on automatic tracking. It cannot observe private fields, and I believe it cannot observe fields modified through inheritance chains.
 - Vue supports Options API, Composition API with setup(), Composition API with <script setup>, render functions, JSX, and single file components. This means the ecosystem including docs, blogs, sample code, etc. is a bit fragmented. On the other hand, it's this flexibility that allows me to adapt it to my non-webapp needs.
 
 * Lit
@@ -58,10 +60,10 @@ Tricky:
 :CUSTOM_ID: lit
 :END:
 
-Lit v1: small output library (11k), no build step required.
+Lit: small output library (11–16k), no build step required.
 
 - Lit v1 [[./lit-v1/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-v1][code]]
-- Lit v2 (TODO)
+- Lit v2 [[./lit-v2/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-v2][code]]
 
 Notes:
 
@@ -72,16 +74,14 @@ Notes:
 - Input is with ~@click~ in the html to attach a click event handler.
 - Redraw is explicit. Call ~redraw()~ every time you change data.
 - Modularity through your own abstractions in code.
+- Lit v1 doesn't have a bundled version, but Lit v2 does.
+- In Lit v2, when you change a property of a custom element (but not its nested properties), it re-renders the element.
 
 Tricky:
 
 - need to use ~svg``~ for svg elements instead of ~html``~.
-- in html syntax, tags don't self-close, so ~<element />~ is only the open tag, and you still have to close it with ~</element>~.
-- there's no bundled version of the library, so it loads slower than other libraries. It's possible to bundle it yourself with Snowpack's [[https://www.npmjs.com/package/esinstall][esinstall]] but frustrating that it doesn't come with a bundle like Vue does.
-
-Haven't yet investigated Lit v2:
-- combines lit-element and lit-html
-- [[https://lit.dev/docs/components/properties/#mutating-properties][reactive properties]]: when you change the property, it re-renders the element. Only works for top level property changes, not changes to nested properties or array elements, so you still have to manually re-render for anything other than the top level.
+- in html5 syntax, tags don't self-close, so ~<element />~ is only the open tag, and you still have to close it with ~</element>~.
+- Lit's automatic re-rendering when changing a property only works for top level property changes, [[https://lit.dev/docs/components/properties/#mutating-properties][not changes to nested properties or array elements]], so you still have to manually re-render for anything other than the top level. This is like Svelte. Vue on the other hand /does/ automatically monitor all nested changes.
 
 * React
 :PROPERTIES:
@@ -119,7 +119,8 @@ Tricky:
 
 Small input&output library (13k), build step if using JSX, no build step needed using HTM (+2k).
 
-- Preact v10 [[./preact-v10-htm/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/preact-v10-htm][code]] (uses HTM, so no build step)
+- Preact v10 + HTM [[./preact-v10-htm/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/preact-v10-htm][code]] (HTM requires no build step)
+- Preact v10 + JSX [[./preact-v10-htm/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/preact-v10-htm][code]] (JSX requires a build step)
 
 Notes:
 
@@ -131,13 +132,13 @@ Notes:
 - Redraw is automatic for state kept inside Preact's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
 - Modularity through custom elements like ~<Gridworld>~.
 
-Preact is like React, but without the tricky items I listed under React: it allows html names like ~class=…~ rather than JavaScript names like ~className=…~; and it allows svg names like ~fill-opacity=…~ rather than ~fillOpacity~ like React requires. This means you can use an SVG visual editor and export it directly into Preact.
+Preact is like React, but without the tricky items I listed under React: it allows html names like ~class=…~ rather than JavaScript names like ~className=…~; and it allows svg names like ~fill-opacity=…~ rather than ~fillOpacity~ like React requires. This means you can use an SVG visual editor and export it directly into Preact. It more closely follows standard HTML, so you can both ~onInput~ and ~onChange~ events.
 
 It normally uses JSX like React does but Preact's HTM is like lit-html's format, without the tricky items I listed under lit-html: you don't have to have both ~html``~ and ~svg``~; the templates support xml syntax; and there's a prebundled version of the library.
 
 Tricky:
 
-- like React, ~setState~ doesn't trigger right away
+- like React, ~setState~ doesn't trigger right away, so [[https://preactjs.com/guide/v10/upgrade-guide/#dont-access-thisstate-synchronously][reading the state right after setting a new value can give you the /old/ value]]
 
 * Svelte
 :PROPERTIES:
@@ -146,7 +147,9 @@ Tricky:
 
 Medium sized input&output library, build step required to convert Svelte code into regular JavaScript
 
-I did not include a demo here, because it requires its own Svelte-specific compiler, and I avoid that for my own projects. However I mention Svelte here because I've heard good things about it, and it's worth considering.
+I did not include a demo here, because it requires its own Svelte-specific compiler, and the Svelte playground didn't let me share a link. However I mention Svelte here because I've heard good things about it, and it's worth considering.
+
+I've made a partial attempt at [[https://github.com/redblobgames/2014-starter-page/tree/master/svelte-v3][sample code]] but the reactivity doesn't work right, and since I am not planning to use Svelte (because I'm avoiding framework-specific build steps [[href:/making-of/little-things/#site-build-reduce][because it doesn't match my long term goals]]), I have not tried to fix it.
 
 Notes:
 
@@ -160,7 +163,8 @@ Notes:
 
 Tricky: 
 
-- Svelte tracks changes based on assignment statements, but not methods like =push=.
+- Svelte tracks changes to top level variables based on assignment statements, but not to changes made to /properties/ of objects or /elements/ of arrays. See [[https://svelte.dev/tutorial/updating-arrays-and-objects][their tutorial]] for workarounds.
+- If you change variable ~x~, Svelte will automatically redraw a template that uses =x= directly, but /not/ if the template calls ~f()~ and that function returns =x=. It seems to /only/ detect direct uses of =x=.
 
 * ObservableHQ
 :PROPERTIES:

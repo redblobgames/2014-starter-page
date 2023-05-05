@@ -1,3 +1,10 @@
+/*
+ * From https://www.redblobgames.com/x/2014-starter-page/
+ * Copyright 2020 Red Blob Games <redblobgames@gmail.com>
+ * License: Apache-2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+ */
+
+import {render, html, svg} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 import {GridWorld, breadthFirstSearch} from '../gridworld.js';
 
 /**
@@ -22,12 +29,12 @@ function makeBfsDiagram(parentElement, cols, rows, startCol, startRow) {
         redraw();
     }
 
-    function setSlider(e) {
-        stepLimit = e.target.valueAsNumber;
+    function setSlider() {
+        stepLimit = this.valueAsNumber;
         redraw();
     }
 
-    /* Construct the html/svg using React JSX
+    /* Construct the html/svg using lit-html templates svg`` and html``
 
        The drawn grid will have size cols X rows. This means each box
        is 1x1, which is convenient, except when you want to set
@@ -44,29 +51,25 @@ function makeBfsDiagram(parentElement, cols, rows, startCol, startRow) {
                 : bfsResults.frontier.indexOf(id) >= 0 ? "frontier"
                 : bfsResults.explored.indexOf(id) >= 0 ? "explored"
                 : "";
-            // NOTE: the use of React-specific className instead of standard html class
-            rects.push(<rect className={'cell ' + className}
-                             key={col+','+row}
-                             x={col} y={row} width="1" height="1"
-                             onClick={() => clickEvent(col, row)} />);
+            rects.push(svg`<rect class="cell ${className}"
+                              x=${col} y=${row} width=1 height=1
+                              @click=${() => clickEvent(col, row)} />`);
         }
-
-        // NOTE: the use of React-specific onChange instead of standard html onInput
-        return <div>
-             <svg viewBox={`0 0 ${cols} ${rows}`}>
-               {rects}
+        
+        return html`
+             <svg viewBox="0 0 ${cols} ${rows}">
+               ${rects}
              </svg>
              <p>
-               Time: <input type="range"
-                      min="0" max={cols*rows - gridWorld.walls.size} 
-                      value={stepLimit} onChange={setSlider} />
-             </p>
-        </div>;
+               Time: <input type=range 
+                      min=0 max=${cols*rows - gridWorld.walls.size} 
+                      value=${stepLimit} @input=${setSlider} />
+             </p>`;
     }
 
     function redraw() {
         bfsResults = breadthFirstSearch(gridWorld, startId, stepLimit);
-        ReactDOM.render(makeHtml(), parentElement);
+        render(makeHtml(), parentElement);
     }
 
     redraw();
