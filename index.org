@@ -3,7 +3,10 @@
 
 I have an [[href:/making-of/line-drawing/][interactive tutorial that takes you step by step to make an interactive tutorial in d3.js]] and [[href:/making-of/circle-drawing/][another one in vue.js]].  However, the code for those is more involved than I'd like, so I wanted to make something even simpler. I wrote the same example with several libraries and made some notes for myself. I often use these as a starting point when I'm working on a project.
 
-** Vanilla javascript
+* Vanilla JavaScript
+:PROPERTIES:
+:CUSTOM_ID: vanillajs
+:END:
 
 No libraries, no build step.
 
@@ -20,17 +23,51 @@ Notes:
 
 A simpler alternative to  ~createElement~ etc. is to construct a string and set =innerHTML=. This is nice /unless/ you have event listeners on those elements. Setting =innerHTML= creates new elements. If you are dragging the mouse based on an event handler, and the mouse drag replaces the elements, that mouse drag might be running on an element that no longer exists, and that can be tricky to debug. You'll also have to be careful to escape your HTML correctly if you are setting =innerHTML=.
 
-** Lit-html v1
+* Vue
+:PROPERTIES:
+:CUSTOM_ID: vue
+:END:
 
-Small output library (11k), no build step required.
+Medium sized input&output library (80k), no build step required, but Vue-specific compiler optional, and Vue-agnostic JSX also allowed but not widely used.
 
-[[./lit-html/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-html][code]]
+- Vue 2 [[./vue-v2-html/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2-html][code]]
+- Vue 3 [[./vue-v3-html/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v3-html][code]]
+- Vue 3 w/JSX (TODO)
+- Vue 3 w/SFC (TODO)
 
 Notes:
 
-- Output is template style, described with ~html`…`~ in /html syntax/ in the javascript file.
+- Output is template style, described with /html syntax/ in the html file /or/ in the JavaScript file.
+- Use ~:attr="value"~ to set attributes and ~{{value}}~ to set text.
+- Use ~v-if~ and ~v-for~ for branch/loop in templates.
+- Create and update are unified. The system keeps track of whether something's already created.
+- Input is with ~@click~ in the html to attach a click event handler. 
+- *Redraw is automatic for state shared with Vue*. Run ~this.x = 5~ and Vue will automatically redraw. If you pass an object into Vue, you can still modify the state outside of Vue and it will pick it up.
+- Modularity through custom elements like ~<my-gridworld>~.
+
+Tricky:
+
+- need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property); only applies when writing the template in the html, and not when writing the template in JavaScript.
+- Vue 2 has some limitations on automatic tracking of updates. It tracks assignment to object fields ~expr.field = …~ including when the objects are inside other objects or arrays. It does not track assignment to array elements ~expr[index] = …~ but does handle array methods such as =push= and =splice=. Vue 2 does not know about the new =Set= or =Map= types. Vue 3 handles all of these situations.
+- Vue 3 is not backwards compatible with existing Vue 2 code; the Vue 2 code has to be migrated to work with Vue 3.
+- Vue 3 also has some limitations on automatic tracking. It cannot observe private fields, and I believe it cannot observe fields modified through inheritance chains.
+- Vue supports Options API, Composition API with setup(), Composition API with <script setup>, render functions, JSX, and single file components. This means the ecosystem including docs, blogs, sample code, etc. is a bit fragmented. On the other hand, it's this flexibility that allows me to adapt it to my non-webapp needs.
+
+* Lit
+:PROPERTIES:
+:CUSTOM_ID: lit
+:END:
+
+Lit v1: small output library (11k), no build step required.
+
+- Lit v1 [[./lit-v1/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-v1][code]]
+- Lit v2 (TODO)
+
+Notes:
+
+- Output is template style, described with ~html`…`~ in /html syntax/ in the JavaScript file.
 - Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
-- Use javascript logic for branch/loop in templates.
+- Use JavaScript logic for branch/loop in templates.
 - Create and update are unified. The system keeps track of whether something's already created.
 - Input is with ~@click~ in the html to attach a click event handler.
 - Redraw is explicit. Call ~redraw()~ every time you change data.
@@ -46,40 +83,21 @@ Haven't yet investigated Lit v2:
 - combines lit-element and lit-html
 - [[https://lit.dev/docs/components/properties/#mutating-properties][reactive properties]]: when you change the property, it re-renders the element. Only works for top level property changes, not changes to nested properties or array elements, so you still have to manually re-render for anything other than the top level.
 
-** Vue
+* React
+:PROPERTIES:
+:CUSTOM_ID: react
+:END:
 
-Medium sized input&output library (80k), no build step required.
+Medium sized input&output library (140k), React-agnostic build step strongly recommended to convert JSX code into regular JavaScript.
 
-- Vue 2 [[./vue-v2/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v2][code]]
-- Vue 3 [[./vue-v3/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/vue-v3][code]]
-
-Notes:
-
-- Output is template style, described with /html syntax/ in the html file /or/ in the javascript file.
-- Use ~:attr="value"~ to set attributes and ~{{value}}~ to set text.
-- Use ~v-if~ and ~v-for~ for branch/loop in templates.
-- Create and update are unified. The system keeps track of whether something's already created.
-- Input is with ~@click~ in the html to attach a click event handler. 
-- Redraw is automatic for state shared with Vue. Run ~this.x = 5~ and Vue will automatically redraw. If you pass an object into Vue, you can still modify the state outside of Vue and it will pick it up.
-- Modularity through custom elements like ~<my-gridworld>~.
-
-Tricky:
-
-- need to use ~view-box.camel~ instead of ~viewBox~ because of naming convention differences (js uses camel case; html uses kebab case, except for this property); only applies when writing the template in the html, and not when writing the template in javascript.
-- Vue 2 has some limitations on automatic tracking of updates. It tracks assignment to object fields ~expr.field = …~ including when the objects are inside other objects or arrays. It does not track assignment to array elements ~expr[index] = …~ but does handle array methods such as =push= and =splice=. Vue 2 does not know about the new =Set= or =Map= types. Vue 3 handles all of these situations.
-- Vue 3 is not backwards compatible with existing Vue 2 code; the Vue 2 code has to be migrated to work with Vue 3.
-
-** React
-
-Medium sized input&output library (116k), build step strongly recommended to convert code into regular Javascript.
-
-[[./react-16/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/react-16][code]] (demo doesn't use the build step)
+- React 16 [[./react-v16-jsx/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/react-v16-jsx][code]] (showing how to run it without a build step)
+- React 18 [[./react-v18-jsx/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/react-v18-jsx][code]] (shows the build step to compile jsx to js)
 
 Notes:
 
-- Output is template style, described with /xml syntax/ (jsx) in the javascript file.
+- Output is template style, described with /xml syntax/ (jsx) in the JavaScript file.
 - Use ~attr={value}~ to set attributes and ~{value}~ to set text.
-- Use javascript logic for branch/loop in templates.
+- Use JavaScript logic for branch/loop in templates.
 - Create and update are unified. The system keeps track of whether something's already created.
 - Input is with ~onClick~ in the html to attach a click event handler. 
 - Redraw is automatic for state kept inside React's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
@@ -88,29 +106,32 @@ Notes:
 
 Tricky:
 
-- need to use the /javascript names/ of elements and attributes instead of the html names. For example, use ~className=…~ instead of ~class=…~ like you would in html.
+- need to use the /JavaScript names/ of elements and attributes instead of the html names. For example, use ~className=…~ instead of ~class=…~ like you would in html.
 - need to convert SVG /kebab case/ attributes like ~fill-opacity=…~ into /camel case/ for JSX like ~fillOpacity=…~ because JSX doesn't support the original names. This means you can't copy an SVG file from a visual editor into JSX and have it work.
 - there are also other html elements that have to be changed to work with React, such as ~for=…~ becoming ~htmlFor=…~ and ~tabindex=…~ being changed to ~tabIndex=…~ ; see [[https://reactjs.org/docs/dom-elements.html][list]].
 - some but not all input elements need to use ~onChange=…~ instead of ~onInput=…~ like HTML5 uses, and there doesn't seem to be a way to get HTML5's =onChange=.
 - when using the components, ~setState({x: 5})~ doesn't immediately update =x= to 5 (this is unlike Vue, which does immediately update, making the logic simpler)
 
-** Preact + htm
+* Preact
+:PROPERTIES:
+:CUSTOM_ID: preact
+:END:
 
-Small input&output library (10k), no build step needed if also using HTM (2k).
+Small input&output library (13k), build step if using JSX, no build step needed using HTM (+2k).
 
-[[./preact-htm/][Demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/preact-htm/][code]] (demo doesn't use the build step)
+- Preact v10 [[./preact-v10-htm/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/preact-v10-htm][code]] (uses HTM, so no build step)
 
 Notes:
 
-- Output is template style, described with ~html`…`~ in /xml syntax/ in the javascript file.
+- Output is template style, described with ~html`…`~ in /xml syntax/ in the JavaScript file.
 - Use ~attr=${value}~ to set attributes and ~${value}~ to set text.
-- Use javascript logic for branch/loop in templates.
+- Use JavaScript logic for branch/loop in templates.
 - Create and update are unified. The system keeps track of whether something's already created.
 - Input is with ~onClick~ in the html to attach a click event handler. 
 - Redraw is automatic for state kept inside Preact's components. Call ~this.setState({x: 5})~ and React will redraw. Redraw is manual for state kept outside of React. Copy it into React every time you change something so that React will see it.
 - Modularity through custom elements like ~<Gridworld>~.
 
-Preact is like React, but without the tricky items I listed under React: it allows html names like ~class=…~ rather than javascript names like ~className=…~; and it allows svg names like ~fill-opacity=…~ rather than ~fillOpacity~ like React requires. This means you can use an SVG visual editor and export it directly into Preact.
+Preact is like React, but without the tricky items I listed under React: it allows html names like ~class=…~ rather than JavaScript names like ~className=…~; and it allows svg names like ~fill-opacity=…~ rather than ~fillOpacity~ like React requires. This means you can use an SVG visual editor and export it directly into Preact.
 
 It normally uses JSX like React does but Preact's HTM is like lit-html's format, without the tricky items I listed under lit-html: you don't have to have both ~html``~ and ~svg``~; the templates support xml syntax; and there's a prebundled version of the library.
 
@@ -118,12 +139,14 @@ Tricky:
 
 - like React, ~setState~ doesn't trigger right away
 
+* Svelte
+:PROPERTIES:
+:CUSTOM_ID: svelte
+:END:
 
-** Svelte
+Medium sized input&output library, build step required to convert Svelte code into regular JavaScript
 
-Medium sized input&output library, build step required to convert Svelte code into regular Javascript
-
-TODO: demo
+I did not include a demo here, because it requires its own Svelte-specific compiler, and I avoid that for my own projects. However I mention Svelte here because I've heard good things about it, and it's worth considering.
 
 Notes:
 
@@ -139,7 +162,10 @@ Tricky:
 
 - Svelte tracks changes based on assignment statements, but not methods like =push=.
 
-** ObservableHQ
+* ObservableHQ
+:PROPERTIES:
+:CUSTOM_ID: observablehq
+:END:
 
 /Notebook/ style interface, where top level definitions become reactive in other expressions. Think spreadsheets.
 
@@ -153,9 +179,12 @@ Tricky:
 
 - custom ~viewof~ syntax if you want to have output cells also provide input (e.g. drawing on the grid)
 
-** My thoughts
+* My thoughts
+:PROPERTIES:
+:CUSTOM_ID: my-thoughts
+:END:
 
-The main idea with templates is that instead of writing /commands/ to generate html, we /describe/ the html we want, with some placeholders for values that come from Javascript values. For example:
+The main idea with templates is that instead of writing /commands/ to generate html, we /describe/ the html we want, with some placeholders for values that come from JavaScript values. For example:
 
 #+begin_src xml
 <rect fill=red x=${col} y=${row} width=1 height=1 />
@@ -195,17 +224,17 @@ I find templates to be a big win. The major libraries in this space (React, Vue,
 <rect fill=red x=${col} y=${row} width=1 height=1 />
 #+end_src
 
-There's some difference in how the templates are written. React uses an extension of Javascript called JSX to allow you to write html in your Javascript. You run a compiler to translate that into regular Javascript. Vue reads HTML from your document, or in strings in the source code. Lit-html uses a relatively new feature, Javascript template literals. Preact normally uses JSX but there's an option to use HTM template literals. Svelte uses its own file format that is compiled into regular Javascript.
+There's some difference in how the templates are written. React uses an extension of JavaScript called JSX to allow you to write html in your JavaScript. You run a React-agnostic compiler to translate that into regular JavaScript. Vue reads HTML from your document, or in strings in the source code, or you can use a Vue-specific compiler to compile Vue "SFC" syntax. Lit-html uses a relatively new feature, JavaScript template literals. Preact normally uses JSX but there's an option to use HTM template literals. Svelte uses a Svelte-specific compiler to compile code into regular JavaScript.
 
-In addition, React, Preact, Vue, and Svelte offer a /component/ system that allows you to create custom elements like ~<GridWorld>~ that are then expanded into HTML. Lit-html doesn't do this, and instead leaves that to a separate library, LitElement. For my small projects, the component system doesn't help me, as I can use regular Javascript functions and classes instead. However, for larger projects, it provides some modularity and also allows you to reuse components that others have written. LitElement uses standard web components that can be used with any other system, whereas React, Preact, Vue, Svelte components can only be used within their own system.
+In addition, React, Preact, Vue, and Svelte offer a /component/ system that allows you to create custom elements like ~<GridWorld>~ that are then expanded into HTML. Lit-html doesn't do this, and instead leaves that to a separate library, LitElement. For my small projects, the component system doesn't help me, as I can use regular JavaScript functions and classes instead. However, for larger projects, it provides some modularity and also allows you to reuse components that others have written. LitElement uses standard web components that can be used with any other system, whereas React, Preact, Vue, Svelte components can only be used within their own system.
 
 https://component-party.dev/ shows a comparison of the syntax used across Svelte, React, Vue, and others.
 
-Tricky: in some of these template systems, it is hard to programatically construct the html in certain ways. For example in lit-html the tag name has to be specified statically.
+For my own projects, I want to be able to use libraries *without a build step* and/or without node.js. Although React can be used without a build step, it's designed to be used with one, and the docs not only say you need to use node.js and a build step, they also recommend you adopt a bigger framework. Svelte also requires a build step. Vue, Preact, and Lit prominently mention being able to run without a build step in their "getting started" docs. *I use Vue* most often in my projects, and [[href:/making-of/circle-drawing/][have a tutorial showing how I use it for interactive diagrams]].
 
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 31 Jan 2023<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 05 May 2023<!-- hhmts end -->
 </x:footer>
 #+end_export
