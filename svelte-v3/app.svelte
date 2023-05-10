@@ -5,8 +5,12 @@
   let gridWorld = new GridWorld(23, 9)
   let startId = gridWorld.toId(startCol, startRow)
 	let stepLimit = 0
+  let bfsResults
 	
-	$: bfsResults = breadthFirstSearch(gridWorld, startId, stepLimit)
+	$: {
+    bfsResults = breadthFirstSearch(gridWorld, startId, stepLimit)
+    bfsResults = bfsResults
+  }
 	
   function toggleWall(col, row) {
     gridWorld.toggleWall(col, row);
