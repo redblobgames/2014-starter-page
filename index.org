@@ -53,7 +53,9 @@ Tricky:
 - Vue 2 has some limitations on automatic tracking of updates. It tracks assignment to object fields ~expr.field = …~ including when the objects are inside other objects or arrays. It does not track assignment to array elements ~expr[index] = …~ but does handle array methods such as =push= and =splice=. Vue 2 does not know about the new =Set= or =Map= types. Vue 3 handles all of these situations.
 - Vue 3 is not backwards compatible with existing Vue 2 code; the Vue 2 code has to be migrated to work with Vue 3.
 - Vue 3 still has a few limitations on automatic tracking. It cannot observe private fields, and I believe it cannot observe fields modified through inheritance chains.
-- Vue supports Options API, Composition API with setup(), Composition API with <script setup>, render functions, JSX, and single file components. This means the ecosystem including docs, blogs, sample code, etc. is a bit fragmented. On the other hand, it's this flexibility that allows me to adapt it to my non-webapp needs.
+- Vue supports Options API, Composition API with setup(), Composition API with =<script setup>=, render functions, JSX, and single file components. This means the ecosystem including docs, blogs, sample code, etc. is a bit fragmented. On the other hand, it's this flexibility that allows me to adapt it to my non-webapp needs.
+
+I am avoiding framework-specific build steps [[href:/making-of/little-things/#site-build-reduce][because it doesn't match my long term goals]], so I am not planning to use Vue's Single-File Components (SFC) format, including =<script setup>=. I use Vue without that format.
 
 * Lit
 :PROPERTIES:
@@ -149,7 +151,7 @@ Medium sized input&output library, build step required to convert Svelte code in
 
 I did not include a demo here, because it requires its own Svelte-specific compiler, and the Svelte playground didn't let me share a link. However I mention Svelte here because I've heard good things about it, and it's worth considering.
 
-I've made a partial attempt at [[https://github.com/redblobgames/2014-starter-page/tree/master/svelte-v3][sample code]] but the reactivity doesn't work right, and since I am not planning to use Svelte (because I'm avoiding framework-specific build steps [[href:/making-of/little-things/#site-build-reduce][because it doesn't match my long term goals]]), I have not tried to fix it.
+- Svelte v3 [[https://github.com/redblobgames/2014-starter-page/tree/master/svelte-v3][code]]
 
 Notes:
 
@@ -163,8 +165,10 @@ Notes:
 
 Tricky: 
 
-- Svelte tracks changes to top level variables based on assignment statements, but not to changes made to /properties/ of objects or /elements/ of arrays. See [[https://svelte.dev/tutorial/updating-arrays-and-objects][their tutorial]] for workarounds.
-- If you change variable ~x~, Svelte will automatically redraw a template that uses =x= directly, but /not/ if the template calls ~f()~ and that function returns =x=. It seems to /only/ detect direct uses of =x=.
+- Svelte tracks changes to top level variables based on assignment statements, but not to changes made to /properties/ of objects or /elements/ of arrays. See [[https://svelte.dev/tutorial/updating-arrays-and-objects][their tutorial]] for workarounds. In my example code, I had to use this workaround on =gridWorld=.
+- Svelte does /simple static analysis/ to find dependencies. See [[https://svelte.dev/docs#3_$_marks_a_statement_as_reactive][the =yPlusAValue= example in the documentation]], in which =total= depends on both =x= and =y=. Svelte detects only changes to =x=, not changes to =y=, even though both are reactive. Refactoring code can make Svelte lose track of reactivity. In my example code, I had to use a workaround on =classFor=.
+
+I am avoiding framework-specific build steps [[href:/making-of/little-things/#site-build-reduce][because it doesn't match my long term goals]], so I am not planning to use Svelte.
 
 * ObservableHQ
 :PROPERTIES:
@@ -239,6 +243,6 @@ For my own projects, I want to be able to use libraries *without a build step* a
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 05 May 2023<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 21 May 2023<!-- hhmts end -->
 </x:footer>
 #+end_export
