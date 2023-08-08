@@ -166,9 +166,66 @@ Notes:
 Tricky: 
 
 - Svelte tracks changes to top level variables based on assignment statements, but not to changes made to /properties/ of objects or /elements/ of arrays. See [[https://svelte.dev/tutorial/updating-arrays-and-objects][their tutorial]] for workarounds. In my example code, I had to use this workaround on =gridWorld=.
-- Svelte does /simple static analysis/ to find dependencies. See [[https://svelte.dev/docs#3_$_marks_a_statement_as_reactive][the =yPlusAValue= example in the documentation]], in which =total= depends on both =x= and =y=. Svelte detects only changes to =x=, not changes to =y=, even though both are reactive. Refactoring code can make Svelte lose track of reactivity. In my example code, I had to use a workaround on =classFor=.
+- Svelte does /simple static analysis/ to find dependencies. See [[https://svelte.dev/docs/svelte-components#script-3-$-marks-a-statement-as-reactive][the =yPlusAValue= example in the documentation]], in which =total= depends on both =x= and =y=. Svelte detects only changes to =x=, not changes to =y=, even though both are reactive. Refactoring code can make Svelte lose track of reactivity. In my example code, I had to use a workaround on =classFor=.
 
 I am avoiding framework-specific build steps [[href:/making-of/little-things/#site-build-reduce][because it doesn't match my long term goals]], so I am not planning to use Svelte.
+
+#+begin_comment
+Here's the text from https://learn.svelte.dev/tutorial/updating-arrays-and-objects (the link may change so I want to keep a copy)
+
+Because Svelte's reactivity is triggered by assignments, using array methods like push and splice won't automatically cause updates. For example, clicking the 'Add a number' button doesn't currently do anything, even though we're calling numbers.push(...) inside addNumber.
+
+One way to fix that is to add an assignment that would otherwise be redundant:
+
+function addNumber() {
+	numbers.push(numbers.length + 1);
+	numbers = numbers;
+}
+
+But there's a more idiomatic solution:
+
+function addNumber() {
+	numbers = [...numbers, numbers.length + 1];
+}
+
+You can use similar patterns to replace pop, shift, unshift and splice.
+
+Assignments to properties of arrays and objects — e.g. obj.foo += 1 or array[i] = x — work the same way as assignments to the values themselves.
+
+function addNumber() {
+	numbers[numbers.length] = numbers.length + 1;
+}
+
+A simple rule of thumb: the name of the updated variable must appear on the left hand side of the assignment. For example this...
+
+const foo = obj.foo;
+foo.bar = 'baz';
+
+...won't trigger reactivity on obj.foo.bar, unless you follow it up with obj = obj.
+#+end_comment
+
+#+begin_comment
+Here's the text from
+https://svelte.dev/docs/svelte-components#script-3-$-marks-a-statement-as-reactive (the link may change so I want to keep a copy)
+
+Only values which directly appear within the $: block will become dependencies of the reactive statement. For example, in the code below total will only update when x changes, but not y.
+
+<script>
+  let x = 0;
+  let y = 0;
+
+  /** @param {number} value */
+  function yPlusAValue(value) {
+    return value + y;
+  }
+
+  $: total = yPlusAValue(x);
+</script>
+
+Total: {total}
+<button on:click={() => x++}> Increment X </button>
+<button on:click={() => y++}> Increment Y </button>
+#+end_comment
 
 * ObservableHQ
 :PROPERTIES:
@@ -243,6 +300,6 @@ For my own projects, I want to be able to use libraries *without a build step* a
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 21 May 2023<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 08 Aug 2023<!-- hhmts end -->
 </x:footer>
 #+end_export
