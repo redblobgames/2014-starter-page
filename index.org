@@ -112,7 +112,7 @@ Tricky:
 - need to convert SVG /kebab case/ attributes like ~fill-opacity=…~ into /camel case/ for JSX like ~fillOpacity=…~ because JSX doesn't support the original names. This means you can't copy an SVG file from a visual editor into JSX and have it work.
 - there are also other html elements that have to be changed to work with React, such as ~for=…~ becoming ~htmlFor=…~ and ~tabindex=…~ being changed to ~tabIndex=…~ ; see [[https://reactjs.org/docs/dom-elements.html][list]].
 - some but not all input elements need to use ~onChange=…~ instead of ~onInput=…~ like HTML5 uses, and there doesn't seem to be a way to get HTML5's =onChange=.
-- when using the components, ~setState({x: 5})~ doesn't immediately update =x= to 5 (this is unlike Vue, which does immediately update, making the logic simpler)
+- when using the components, ~setState({x: 5})~ doesn't immediately update =x= to 5 (this is unlike Vue, which does immediately update, making the logic simpler); also see [[https://dev.to/this-is-learning/the-cost-of-consistency-in-ui-frameworks-4agi][this explanation]] of why
 
 * Preact
 :PROPERTIES:
@@ -166,7 +166,7 @@ Notes:
 Tricky: 
 
 - Svelte tracks changes to top level variables based on assignment statements, but not to changes made to /properties/ of objects or /elements/ of arrays. See [[https://svelte.dev/tutorial/updating-arrays-and-objects][their tutorial]] for workarounds. In my example code, I had to use this workaround on =gridWorld=.
-- Svelte does /simple static analysis/ to find dependencies. See [[https://svelte.dev/docs/svelte-components#script-3-$-marks-a-statement-as-reactive][the =yPlusAValue= example in the documentation]], in which =total= depends on both =x= and =y=. Svelte detects only changes to =x=, not changes to =y=, even though both are reactive. Refactoring code can make Svelte lose track of reactivity. In my example code, I had to use a workaround on =classFor=.
+- Svelte does /simple static analysis/ to find dependencies. See [[https://svelte.dev/docs/svelte-components#script-3-$-marks-a-statement-as-reactive][the =yPlusAValue= example in the documentation]], in which =total= depends on both =x= and =y=. Svelte detects only changes to =x=, not changes to =y=, even though both are reactive. Refactoring code can make Svelte lose track of reactivity. In my example code, I had to use a workaround on =classFor=. (They realized this and are [[https://svelte.dev/blog/runes#runtime-reactivity][switching to dynamic analysis for Svelte 5]].)s
 
 I am avoiding framework-specific build steps [[href:/making-of/little-things/#site-build-reduce][because it doesn't match my long term goals]], so I am not planning to use Svelte.
 
@@ -258,7 +258,7 @@ The main idea with templates is that instead of writing /commands/ to generate h
 Compare this to the vanilla approach:
 
 #+begin_src js
-let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect");
+let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
 rect.setAttribute("fill", "red");
 rect.setAttribute("x", col);
 rect.setAttribute("y", row);
@@ -300,6 +300,6 @@ For my own projects, I want to be able to use libraries *without a build step* a
 #+begin_export html
 <x:footer>
   Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 08 Aug 2023<!-- hhmts end -->
+  <!-- hhmts start -->Last modified: 26 Feb 2024<!-- hhmts end -->
 </x:footer>
 #+end_export
