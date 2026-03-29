@@ -304,7 +304,7 @@ For my own projects, I want to be able to use libraries *without a build step* a
 
 #+begin_export html
 <x:footer>
-  Created 10 Apr 2020; &#160;
-  <!-- hhmts start -->Last modified: 26 Feb 2024<!-- hhmts end -->
+  Created 10 Apr 2020;
+  <!-- hhmts start -->Last modified: 16 Apr 2025<!-- hhmts end -->
 </x:footer>
 #+end_export
