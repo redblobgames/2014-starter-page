@@ -66,6 +66,7 @@ Lit: small output library (11–16k), no build step required.
 
 - Lit v1 [[./lit-v1/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-v1][code]]
 - Lit v2 [[./lit-v2/][demo]] and [[https://github.com/redblobgames/2014-starter-page/tree/master/lit-v2][code]]
+- Lit v3 is similar to Lit v2
 
 Notes:
 
@@ -152,6 +153,8 @@ Medium sized input&output library, build step required to convert Svelte code in
 I did not include a demo here, because it requires its own Svelte-specific compiler, and the Svelte playground didn't let me share a link. However I mention Svelte here because I've heard good things about it, and it's worth considering.
 
 - Svelte v3 [[https://github.com/redblobgames/2014-starter-page/tree/master/svelte-v3][code]]
+- Svelte v4 is similar to v3
+- Svelte v5 changes things and I haven't had a chance to try it
 
 Notes:
 
@@ -166,7 +169,7 @@ Notes:
 Tricky: 
 
 - Svelte tracks changes to top level variables based on assignment statements, but not to changes made to /properties/ of objects or /elements/ of arrays. See [[https://svelte.dev/tutorial/updating-arrays-and-objects][their tutorial]] for workarounds. In my example code, I had to use this workaround on =gridWorld=.
-- Svelte does /simple static analysis/ to find dependencies. See [[https://svelte.dev/docs/svelte-components#script-3-$-marks-a-statement-as-reactive][the =yPlusAValue= example in the documentation]], in which =total= depends on both =x= and =y=. Svelte detects only changes to =x=, not changes to =y=, even though both are reactive. Refactoring code can make Svelte lose track of reactivity. In my example code, I had to use a workaround on =classFor=. (They realized this and are [[https://svelte.dev/blog/runes#runtime-reactivity][switching to dynamic analysis for Svelte 5]].)s
+- Svelte does /simple static analysis/ to find dependencies. See [[https://v4.svelte.dev/docs/svelte-components#script-3-$-marks-a-statement-as-reactive][the =yPlusAValue= example in the documentation]], in which =total= depends on both =x= and =y=. Svelte detects only changes to =x=, not changes to =y=, even though both are reactive. Refactoring code can make Svelte lose track of reactivity. In my example code, I had to use a workaround on =classFor=. [[https://github.com/sveltejs/svelte/issues/5190][Here's another example of refactoring that fails]]. For Svelte 5 they are [[https://svelte.dev/blog/runes#runtime-reactivity][switching to dynamic analysis]].
 
 I am avoiding framework-specific build steps [[href:/making-of/little-things/#site-build-reduce][because it doesn't match my long term goals]], so I am not planning to use Svelte.
 
@@ -292,6 +295,8 @@ I find templates to be a big win. The major libraries in this space (React, Vue,
 There's some difference in how the templates are written. React uses an extension of JavaScript called JSX to allow you to write html in your JavaScript. You run a React-agnostic compiler to translate that into regular JavaScript. Vue reads HTML from your document, or in strings in the source code, or you can use a Vue-specific compiler to compile Vue "SFC" syntax. Lit-html uses a relatively new feature, JavaScript template literals. Preact normally uses JSX but there's an option to use HTM template literals. Svelte uses a Svelte-specific compiler to compile code into regular JavaScript.
 
 In addition, React, Preact, Vue, and Svelte offer a /component/ system that allows you to create custom elements like ~<GridWorld>~ that are then expanded into HTML. Lit-html doesn't do this, and instead leaves that to a separate library, LitElement. For my small projects, the component system doesn't help me, as I can use regular JavaScript functions and classes instead. However, for larger projects, it provides some modularity and also allows you to reuse components that others have written. LitElement uses standard web components that can be used with any other system, whereas React, Preact, Vue, Svelte components can only be used within their own system.
+
+React's system re-runs the component code every time, and then you use things like =useMemo= to prevent that. Vue's system separates the /setup/, which runs once, and the /template/ which runs every time. In d3.js it's best to separate these as well, using =.enter()= / =.exit()=.  See [[https://chrlschn.dev/blog/2025/01/the-inverted-reactivity-model-of-react/][Charles Chen's article on React reactivity]].
 
 https://component-party.dev/ shows a comparison of the syntax used across Svelte, React, Vue, and others.
 
